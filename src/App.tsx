@@ -24,7 +24,7 @@ export default function App() {
   const [recordsLoaded, setRecordsLoaded] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState(false);
   const munichApi =
-    'https://opendata.muenchen.de/api/3/action/datastore_search?resource_id=b6b45b42-2e6c-43af-898f-c5cfa1d660b8&limit=5';
+    'https://opendata.muenchen.de/api/3/action/datastore_search?resource_id=b6b45b42-2e6c-43af-898f-c5cfa1d660b8&limit=20';
 
   useEffect(() => {
     (async () => {
@@ -48,9 +48,14 @@ export default function App() {
               setImagesLoaded(true);
               return { ...record, img: image };
             } else {
+              console.log(record.bayernCloudType);
+
+              if (record.bayernCloudType === null) {
+                record.bayernCloudType = 'Natur'
+              }
               return {
                 ...record,
-                img: '../public/marginalia.png',
+                img: `${record.bayernCloudType.toLowerCase()}.png`,
               };
             }
           })
@@ -61,7 +66,7 @@ export default function App() {
 
   return (
     <section className="min-h-screen flex justify-center items-center bg-slate-50">
-      <div className="flex flex-col">
+      <div className="flex flex-col py-32">
         <p className="font-semibold text-4xl">munich opendata</p>
         <p className="text-sm">Explore what the city has to offer</p>
         <div className="pt-16 grid-cols-2 grid gap-8">
@@ -69,14 +74,17 @@ export default function App() {
             return (
               <div
                 key={record._id}
-                className="rounded-lg bg-white flex flex-row shadow-xl shadow-slate-100"
+                className="rounded-lg bg-white flex flex-row shadow-xl shadow-slate-100 h-64 relative"
                 style={{
                   width: '48rem',
                 }}
               >
-                <div className="w-1/2 flex justify-center items-center">
+                <a href={record.url} className='hover:opacity-100 opacity-0 transition rounded-lg absolute h-full w-full top-0 left-0 bg-black/60 text-white flex justify-center items-center text-xl font-semibold'>
+                  Visit {record.name} homepage
+                </a>
+                <div className="min-w-64 flex p-12">
                   <div
-                    className="rounded-xl overflow-clip bg-orange-200 w-64 h-64 flex justify-center items-center"
+                    className="rounded-xl w-full h-full overflow-clip bg-orange-200 flex justify-center items-center"
                     style={{
                       background:
                         'linear-gradient(330deg, rgba(223,218,221,1) 0%, rgba(202,222,230,1) 100%)',
@@ -101,9 +109,9 @@ export default function App() {
                     {record.bayernCloudType}
                   </p>
                   <p className="text-3xl font-semibold py-4">{record.name}</p>
-                  <p className="font-semibold pb-4">{record.description}</p>
-                  <div className="flex flex-row space-x-2 items-center text-white/80">
-                    <CiLocationOn color="white" size={42} />
+                  <p className="pb-4 text-sm">{record.description}</p>
+                  <div className="flex flex-row space-x-2 items-center text-black/80">
+                    <CiLocationOn color="black" size={42} />
                     <p>
                       {getDistanceFromCentral(
                         record['geo/latitude'],

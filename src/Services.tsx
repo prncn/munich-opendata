@@ -1,18 +1,18 @@
-export const corsPrefixer = 'https://api.allorigins.win/get?';
+export const corsPrefixer = 'https://corsproxy.io/?';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const placeholderRecord = [
-  {
-    _id: 1,
-    name: 'Zugspitze',
-    bayernCloudType: 'Natur',
-    description:
-      'Ein Tagesausflug auf den höchsten Berg Deutschlands? Von München aus ist das kein Problem!',
-    'geo/latitude': 47.42106809599,
-    'geo/longitude': 10.985362529755,
-    url: 'http://zugspitze.de/',
-  },
-];
+// const placeholderRecord = [
+//   {
+//     _id: 1,
+//     name: 'Zugspitze',
+//     bayernCloudType: 'Natur',
+//     description:
+//       'Ein Tagesausflug auf den höchsten Berg Deutschlands? Von München aus ist das kein Problem!',
+//     'geo/latitude': 47.42106809599,
+//     'geo/longitude': 10.985362529755,
+//     url: 'http://zugspitze.de/',
+//   },
+// ];
 
 function getDistanceFromLatLonInKm(
   lat1: number,
@@ -27,9 +27,9 @@ function getDistanceFromLatLonInKm(
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(deg2rad(lat1)) *
-      Math.cos(deg2rad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c; // Distance in kilometers
